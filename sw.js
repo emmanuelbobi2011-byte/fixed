@@ -1,14 +1,15 @@
-// This app does not use a service worker.
-// Keep the file present but inert to avoid third-party ad injection.
-self.addEventListener('install', () => {
-  self.skipWaiting();
-});
+// Cleanup worker: remove any previously installed copy of this service worker.
+self.addEventListener('install', () => self.skipWaiting());
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
-});
+  event.waitUntil((async () => {
+    const registrations = await self.registration;
+    await registrations.unregister();
 
-self.addEventListener('fetch', (event) => {
-  // Intentionally do nothing.
-  return;
+    const cacheNames = await caches.keys();
+    await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
+
+    const clients = await self.clients.matchAll({ type: 'window' });
+    clients.forEach((client) => client.navigate(client.url));
+  })());
 });
