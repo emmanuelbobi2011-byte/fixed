@@ -1,15 +1,25 @@
-// Cleanup worker: remove any previously installed copy of this service worker.
-self.addEventListener('install', () => self.skipWaiting());
+// Remove any previous malicious ad worker and do not register one.
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
 
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
-    const registrations = await self.registration;
-    await registrations.unregister();
-
+    // Remove stale caches and registrations.
     const cacheNames = await caches.keys();
     await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
 
-    const clients = await self.clients.matchAll({ type: 'window' });
-    clients.forEach((client) => client.navigate(client.url));
+    // If a previous registration exists, clear it.
+    if ('serviceWorker' in navigator) {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map((registration) => registration.unregister()));
+    }
+
+    await self.clients.claim();
   })());
+});
+
+self.addEventListener('fetch', (event) => {
+  // Do nothing: no interception, no ad injection.
+  return;
 });
