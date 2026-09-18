@@ -1,0 +1,167 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile containing identity, role, streak, and XP details.",
+      "type": "object",
+      "properties": {
+        "auth_user_id": { "type": "string", "description": "Authentication user ID" },
+        "username": { "type": "string", "maxLength": 100 },
+        "display_name": { "type": "string", "maxLength": 120 },
+        "avatar_url": { "type": "string", "maxLength": 500 },
+        "role": { "type": "string", "enum": ["student", "teacher", "admin"] },
+        "bio": { "type": "string", "maxLength": 1000 },
+        "email": { "type": "string", "maxLength": 200 },
+        "streak_days": { "type": "number" },
+        "xp_points": { "type": "number" },
+        "whatsapp_number": { "type": "string", "maxLength": 50 },
+        "last_active_date": { "type": "string", "maxLength": 30 },
+        "created_at": { "type": "string", "maxLength": 40 },
+        "updated_at": { "type": "string", "maxLength": 40 }
+      },
+      "required": ["username", "display_name", "role", "email"]
+    },
+    "Course": {
+      "title": "Course",
+      "description": "Course created by an instructor with media and exercises.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 250 },
+        "slug": { "type": "string", "maxLength": 250 },
+        "description": { "type": "string", "maxLength": 5000 },
+        "image_url": { "type": "string", "maxLength": 1000 },
+        "media_type": { "type": "string", "enum": ["picture", "video", "presentation", "gif"] },
+        "media_url": { "type": "string", "maxLength": 1000 },
+        "course_type": { "type": "string", "enum": ["HTML", "CSS", "JS", "Fullstack"] },
+        "badge_color": { "type": "string", "maxLength": 50 },
+        "code_example": { "type": "string", "maxLength": 20000 },
+        "code_example_title": { "type": "string", "maxLength": 200 },
+        "code_example_explanation": { "type": "string", "maxLength": 5000 },
+        "status": { "type": "string", "enum": ["published", "draft", "archived"] },
+        "order_index": { "type": "number" },
+        "level": { "type": "string", "enum": ["Beginner", "Intermediate", "Advanced"] },
+        "created_by": { "type": "string", "maxLength": 128 },
+        "created_at": { "type": "string", "maxLength": 40 },
+        "updated_at": { "type": "string", "maxLength": 40 }
+      },
+      "required": ["title", "description", "status", "created_by"]
+    },
+    "LessonRecall": {
+      "title": "LessonRecall",
+      "description": "Lesson recall linked to a course and live WhatsApp session.",
+      "type": "object",
+      "properties": {
+        "course_id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 250 },
+        "whatsapp_session_title": { "type": "string", "maxLength": 250 },
+        "whatsapp_date": { "type": "string", "maxLength": 40 },
+        "body": { "type": "string", "maxLength": 30000 },
+        "media_type": { "type": "string", "maxLength": 50 },
+        "media_url": { "type": "string", "maxLength": 1000 },
+        "code_example": { "type": "string", "maxLength": 20000 },
+        "code_example_title": { "type": "string", "maxLength": 200 },
+        "code_example_explanation": { "type": "string", "maxLength": 5000 },
+        "published": { "type": "boolean" },
+        "order_index": { "type": "number" },
+        "created_by": { "type": "string", "maxLength": 128 },
+        "created_at": { "type": "string", "maxLength": 40 },
+        "updated_at": { "type": "string", "maxLength": 40 }
+      },
+      "required": ["course_id", "title", "created_by"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Public announcement posted by an administrator for all learners.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 250 },
+        "body": { "type": "string", "maxLength": 10000 },
+        "tag": { "type": "string", "enum": ["WhatsApp Session", "Platform Update", "Challenge", "General"] },
+        "published": { "type": "boolean" },
+        "created_by": { "type": "string", "maxLength": 128 },
+        "created_at": { "type": "string", "maxLength": 40 }
+      },
+      "required": ["title", "body", "tag", "created_by"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "Practical coding task or assignment.",
+      "type": "object",
+      "properties": {
+        "recall_id": { "type": "string", "maxLength": 128 },
+        "course_id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 250 },
+        "instructions": { "type": "string", "maxLength": 15000 },
+        "points": { "type": "number" },
+        "published": { "type": "boolean" },
+        "created_by": { "type": "string", "maxLength": 128 },
+        "created_at": { "type": "string", "maxLength": 40 },
+        "updated_at": { "type": "string", "maxLength": 40 }
+      },
+      "required": ["title", "instructions", "points", "created_by"]
+    },
+    "Submission": {
+      "title": "Submission",
+      "description": "Student task submission with auto-grade score and instructor feedback.",
+      "type": "object",
+      "properties": {
+        "task_id": { "type": "string", "maxLength": 128 },
+        "user_id": { "type": "string", "maxLength": 128 },
+        "project_id": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["draft", "submitted", "graded", "returned"] },
+        "score": { "type": "number" },
+        "max_score": { "type": "number" },
+        "passed": { "type": "boolean" },
+        "feedback": { "type": "string", "maxLength": 5000 },
+        "submitted_at": { "type": "string", "maxLength": 40 },
+        "graded_at": { "type": "string", "maxLength": 40 }
+      },
+      "required": ["task_id", "user_id", "status"]
+    },
+    "Presence": {
+      "title": "Presence",
+      "description": "Real-time presence state of actively connected users.",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "maxLength": 128 },
+        "username": { "type": "string", "maxLength": 100 },
+        "display_name": { "type": "string", "maxLength": 120 },
+        "avatar_url": { "type": "string", "maxLength": 500 },
+        "activity": { "type": "string", "enum": ["idle", "learning", "task", "test", "code_lab"] },
+        "last_seen": { "type": "string", "maxLength": 40 },
+        "connected_at": { "type": "string", "maxLength": 40 }
+      },
+      "required": ["user_id", "display_name", "activity", "last_seen"]
+    }
+  },
+  "firestore": {
+    "/profiles/{userId}": {
+      "schema": { "$ref": "UserProfile" },
+      "description": "Registered learner and instructor profiles."
+    },
+    "/courses/{courseId}": {
+      "schema": { "$ref": "Course" },
+      "description": "Published and draft courses."
+    },
+    "/recalls/{recallId}": {
+      "schema": { "$ref": "LessonRecall" },
+      "description": "Lesson recalls linked to live sessions."
+    },
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "Announcement" },
+      "description": "Public broadcasts and updates from platform administrators."
+    },
+    "/tasks/{taskId}": {
+      "schema": { "$ref": "Task" },
+      "description": "Coding assignments and tasks."
+    },
+    "/submissions/{submissionId}": {
+      "schema": { "$ref": "Submission" },
+      "description": "Student work submissions and grades."
+    },
+    "/presence/{presenceId}": {
+      "schema": { "$ref": "Presence" },
+      "description": "Live presence heartbeats."
+    }
+  }
+}

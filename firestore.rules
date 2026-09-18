@@ -1,0 +1,88 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'euniceajayi2010@gmail.com' ||
+        request.auth.token.email == 'emmanuelbobi2011@gmail.com'
+      );
+    }
+
+    // Connection testing doc
+    match /test/{docId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Courses: readable by all people on the web; writeable by admins or creator
+    match /courses/{courseId} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Lesson recalls: readable by all people on the web
+    match /recalls/{recallId} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Announcements: readable by all people on the web
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Practical tasks: readable by all learners
+    match /tasks/{taskId} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Quizzes and tests
+    match /tests/{testId} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Quiz test attempts
+    match /test_attempts/{attemptId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Submissions
+    match /submissions/{submissionId} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Student Progress
+    match /progress/{progressId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // User Profiles
+    match /profiles/{userId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Live Presence Heartbeats
+    match /presence/{presenceId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Default safety catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

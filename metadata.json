@@ -1,0 +1,6 @@
+{
+  "name": "Learn2Code Community Platform",
+  "description": "WhatsApp-first coding education companion platform with lesson recalls, practical tasks, automatic quizzes, HTML/CSS/JS Code Lab, and admin management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
