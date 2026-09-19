@@ -19,7 +19,6 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { StorageService, useStorageSync } from '../../services/storage';
 import { WhatsAppBanner } from '../common/WhatsAppBanner';
-import { AdContainer } from '../common/AdContainer';
 
 interface HomeViewProps {
   onNavigate: (view: string, id?: string) => void;
@@ -317,7 +316,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* Right 1 Col: Announcements, Recent Results & Compliant Ad */}
+        {/* Right 1 Col: Announcements, Recent Results & Community Content */}
         <div className="space-y-6">
           {/* Announcements Card */}
           <div className="rounded-3xl bg-white border border-slate-200/80 p-5 shadow-xs">
@@ -397,9 +396,6 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate }) => {
               </div>
             )}
           </div>
-
-          {/* Compliant Advertising Container (Slot in Dashboard) */}
-          <AdContainer placement="feed" />
         </div>
       </div>
     </div>
